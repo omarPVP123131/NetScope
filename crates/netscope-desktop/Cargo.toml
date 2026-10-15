@@ -1,0 +1,36 @@
+[package]
+name = "netscope-desktop"
+description = "Interfaz gráfica de NetScope"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+# Dueño: Persona C (interfaz).
+
+[dependencies]
+netscope-capture.workspace = true
+netscope-protocol.workspace = true
+
+egui = { workspace = true, optional = true }
+eframe = { workspace = true, optional = true }
+
+[features]
+# La interfaz es el producto, así que viene activada por defecto. El feature
+# existe para poder compilar y probar el resto del workspace en integración
+# continua sin descargar ni compilar la interfaz gráfica:
+#
+#     cargo check --workspace --no-default-features
+default = ["gui"]
+
+gui = ["dep:eframe", "dep:egui"]
+
+# El binario que ejecuta el usuario se llama `netscope`, sin sufijo.
+[[bin]]
+name = "netscope"
+path = "src/main.rs"
+
+[lints]
+workspace = true

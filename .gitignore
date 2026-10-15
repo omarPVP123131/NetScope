@@ -1,0 +1,16 @@
+# Compilación
+/target
+**/*.rs.bk
+
+# Datos de captura: pueden contener información sensible.
+# No se versionan. Para añadir una fixture, revisa antes SECURITY.md.
+*.pcap
+*.pcapng
+*.cap
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

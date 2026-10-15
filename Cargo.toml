@@ -1,0 +1,70 @@
+# Workspace de NetScope.
+#
+# Tres crates, dependencias estrictamente lineales:
+#
+#     netscope-protocol  ◄──  netscope-capture  ◄──  netscope-desktop
+#
+# Nadie depende hacia atrás. Ver docs/adr/0001-workspace-de-tres-crates.md.
+
+[workspace]
+resolver = "3"
+members = [
+    "crates/netscope-protocol",
+    "crates/netscope-capture",
+    "crates/netscope-desktop",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+authors = ["NetScope contributors <equipo@netscope.dev>"]
+repository = "https://github.com/netscope-project/netscope"
+# El proyecto todavía no se publica: la licencia se decide antes del primer
+# lanzamiento (ver README > Licencia).
+publish = false
+
+[workspace.dependencies]
+netscope-protocol = { path = "crates/netscope-protocol", version = "0.1.0" }
+netscope-capture = { path = "crates/netscope-capture", version = "0.1.0" }
+netscope-desktop = { path = "crates/netscope-desktop", version = "0.1.0" }
+
+# Dependencias externas. Se declaran aquí una sola vez para que los tres
+# crates compartan exactamente la misma versión.
+thiserror = "2"
+
+# Solo las usa netscope-desktop, y solo con el feature `gui`.
+egui = "0.32"
+eframe = "0.32"
+
+# Sin dependencias en netscope-protocol a propósito: es la base del DAG y no
+# puede arrastrar nada que bloquee a los otros dos equipos.
+#
+# Para la captura en vivo (Sprint 6) se añadirá aquí la biblioteca que elija el
+# spike del ADR-0005, ynetscope-capture la activará tras sus features de
+# plataforma.
+
+[workspace.lints.rust]
+# Un analizador lee ficheros que ha escrito otro: `unsafe` se prohíbe de raiz.
+unsafe_code = "forbid"
+missing_docs = "warn"
+rust_2018_idioms = { level = "warn", priority = -1 }
+
+[workspace.lints.clippy]
+all = { level = "warn", priority = -1 }
+# Los documentos están en español y citan términos técnicos sin acentos graves:
+# "pcap", "Ethernet", "IPv4". Que avise de eso solo genera ruido.
+doc_markdown = "allow"
+
+# Un analizador abre ficheros de 100 MB: el código de terceros no tiene por qué
+# compilarse sin optimizaciones durante el desarrollo.
+[profile.dev.package."*"]
+opt-level = 2
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
+# Sin `panic = "abort"`: el objetivo del proyecto es que una trama corrupta
+# nunca tumbe el programa, y es más fácil decirlo sobre un binario que puede
+# recuperarse de un pánico.

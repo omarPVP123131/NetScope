@@ -1,0 +1,31 @@
+[package]
+name = "netscope-capture"
+description = "Lectura de capturas, almacén, filtros y estadísticas de NetScope"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+# Dueño: Persona A (captura e ingesta).
+
+[dependencies]
+netscope-protocol.workspace = true
+
+[features]
+# Por defecto, nada: leer ficheros no debe exigir librerías del sistema. La
+# captura en vivo es opcional y se activa en el Sprint 6 (ADR-0005).
+default = []
+
+# Compilación por sistema operativo. Cada una habilita su backend y deja el
+# resto devuelve un error claro en vez de fallar al arrancar.
+capture-linux = []
+capture-windows = []
+capture-macos = []
+
+# Lectura de PCAPNG, además del formato PCAP clásico (ADR-0003).
+pcapng = []
+
+[lints]
+workspace = true

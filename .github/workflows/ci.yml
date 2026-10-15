@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Lo que corre en cada commit: barato y sin dependencias pesadas.
+  rapido:
+    name: Formato, clippy y pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Formato
+        run: cargo fmt --all -- --check
+      - name: Clippy sin avisos
+        run: cargo clippy --workspace --all-targets --no-default-features -- -D warnings
+      - name: Pruebas
+        run: cargo test --workspace --no-default-features
+
+  # La interfaz solo entra aquí. Tarda bastante más porque compila la interfaz
+  # gráfica entera, así que no bloquea el trabajo diario.
+  interfaz:
+    name: Compila la interfaz gráfica
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Compila con todos los features
+        run: cargo check -p netscope-desktop --all-features
+
+  # El proyecto se escribe en tres sistemas desde el principio, no en el Sprint 6.
+  sistemas:
+    name: Compila en ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Compila el núcleo sin interfaz
+        run: cargo check --workspace --no-default-features
+
+  # Se ejecuta cuando hay un .pcap de prueba en fixtures/. Todavía no hay
+  # ninguno, así que el job aparece en gris hasta el Sprint 2.
+  fixtures:
+    name: Las capturas de prueba siguen en verde
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace --no-default-features -- --ignored

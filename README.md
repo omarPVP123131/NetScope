@@ -23,7 +23,8 @@ el fichero que le das está roto.
 
 - [Qué es y qué no es](#qué-es-y-qué-no-es)
 - [Objetivos](#objetivos)
-- [Alcance por fases](#alcance-por-fases)
+- [Alcance](#alcance)
+- [Fases](#alcance-por-fases)
 - [Arquitectura](#arquitectura)
 - [Reparto del trabajo: tres frentes independientes](#reparto-del-trabajo-tres-frentes-independientes)
 - [Roadmap](#roadmap)
@@ -76,28 +77,44 @@ el fichero que le das está roto.
 
 ### Criterio de éxito del proyecto
 
-Al terminar, una persona que no conoce el código debe poder:
+**No** es el número de protocolos ni parecerse a Wireshark por fuera. Es uno:
 
-- abrir un `.pcap`, elegir un paquete y ver sus campos con offset y valor
-  hexadecimal;
-- entender por qué un paquete aparece marcado como *truncado* o *malformado*;
-- filtrar la captura por protocolo, dirección y puerto;
-- añadir un protocolo nuevo (por ejemplo, DHCP) **sin tocar nada más que dos
-  archivos**.
+> Alguien que no ha escrito el código abre una captura de tráfico real,
+> encuentra lo que busca usando filtros, sigue una conexión TCP de principio a
+> fin y exporta lo que le interesa, **sin leer una línea del código**.
+
+Si eso pasa con ocho protocolos, el proyecto ha funcionado. Si no pasa con
+quince, no ha funcionado.
 
 ---
 
-## Alcance por fases
+## Alcance
 
-| Fase | Contenido | Entregable verificable | Sprint |
-|------|-----------|------------------------|--------|
-| **1. Fundamentos** | Diseño de arquitectura, contratos entre equipos, Glosario de protocolos, capturas de prueba | Documentos de arquitectura y contratos firmados; repo con estructura de crates | 1 |
-| **2. Parser de fichero** | Lectura de PCAP, Ethernet, IPv4, IPv6, TCP, UDP, ARP; pruebas unitarias con tramas truncadas y malformadas | CLI que lista y volca un `.pcap` | 2-3 |
-| **3. Interfaz gráfica** | Lista de paquetes, panel de detalle, vista de bytes, filtros, búsqueda | Aplicación de escritorio que abre un `.pcap` | 4-5 |
-| **4. Captura en vivo** | Integración con la biblioteca de captura del sistema, sin bloquear la interfaz, controles de inicio/parada | Botón "capturar" que muestra tráfico real | 6 |
-| **5. Avanzado** | Reensamblado de flujos TCP, estadísticas, export, generador de paquetes de laboratorio | Informe de flujo y pcap exportado | 7-8 |
+**El objetivo es tener las mismas categorías de función que Wireshark sobre un
+conjunto de protocolos mucho más pequeño.** Abrir capturas, ver los campos con
+su offset, ver los bytes, filtrar, seguir flujos, capturar en vivo, estadísticas
+y exportar. La misma amplitud de funciones, no la misma profundidad ni la misma
+cobertura de protocolos: Wireshark entiende más de dos mil porque son veinte
+años y ciento cincuenta personas.
 
-El detalle semana a semana está en [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Lo que **no** entra, y por qué, está escrito en
+[`docs/ALCANCE.md`](docs/ALCANCE.md). Esa lista es la que más tiempo ahorra:
+añadir un protocolo número trece antes de terminar el número cuatro es cómo
+mueren estos proyectos.
+
+## Fases
+
+| Fase | Contenido | Entregable verificable | Sprints |
+|------|-----------|------------------------|---------|
+| **1. Fundamentos** | Arquitectura, contratos entre equipos, modelo de datos, capturas de prueba | Contratos firmados y workspace que compila | 1 |
+| **2. Parser de fichero** | PCAP, PCAPNG, Ethernet, IPv4, IPv6, TCP, UDP, ARP, ICMP, DNS, DHCP, VLAN | Un `.pcap` se abre y se ve campo a campo | 2-6 |
+| **3. Interfaz gráfica** | Lista, detalle, vista de bytes, filtros, búsqueda, estadísticas | Aplicación de escritorio usable por alguien externo | 2-7 |
+| **4. Flujos y laboratorio** | Reensamblado TCP, conversaciones, generador de paquetes | Una conexión TCP completa, de principio a fin | 8-9 |
+| **5. Captura en vivo** | Integración con el sistema, sin bloquear la interfaz, estadísticas en vivo | Botón «capturar» que muestra tráfico real | 10-11 |
+| **6. Cierre** | Rendimiento, binarios portátiles por sistema, documentación | v0.1 publicada y usada por alguien fuera del equipo | 12 |
+
+El detalle está en [`docs/ROADMAP.md`](docs/ROADMAP.md) y el alcance, en
+[`docs/ALCANCE.md`](docs/ALCANCE.md).
 
 ---
 
@@ -166,20 +183,31 @@ Herramientas que hacen posible la independencia:
 
 ## Roadmap
 
-8 sprints de 2 semanas (16 semanas), del 1 al 8.
+**12 sprints de dos semanas: del 19 de octubre de 2026 al 9 de abril de 2027.**
+
+El objetivo es tener **las mismas categorías de función que Wireshark** sobre un
+conjunto de protocolos mucho más pequeño: abrir capturas, ver los campos, ver
+los bytes, filtrar, seguir flujos, capturar en vivo, estadísticas y exportar. No
+la misma cobertura: ver [`docs/ALCANCE.md`](docs/ALCANCE.md).
 
 | Sprint | Foco | Persona A | Persona B | Persona C |
 |--------|------|-----------|-----------|-----------|
-| 1 | Contratos y cimientos | Workspace de Cargo, ADR de captura | Modelo `Packet`/`Layer`/`Field` y esqueleto de decodificadores | Maqueta de la interfaz y navegación |
-| 2 | Leer y entender | Lector PCAP con validación | Ethernet + IPv4 + UDP con tests | Lista de paquetes y columnas |
-| 3 | Casos límite | PCAPNG, replay, manejo de ficheros corruptos | TCP + ARP + ICMP + errores y truncados | Panel de detalle con offsets |
-| 4 | Mostrar los bytes | Almacén con capacidad y estadísticas | IPv6, flags, checksum, fuzzing del parser | Vista hexadecimal y resaltado |
-| 5 | Usable | Filtros y búsqueda | DNS, DHCP, pulido y pruebas doradas | Filtros en interfaz y búsqueda |
-| 6 | Tiempo real | Captura en vivo (Linux/Windows) y estadísticas en vivo | Rendimiento del decoder + reensamblado TCP | Controles de captura y stats |
-| 7 | Laboratorio | Generador de paquetes | Reensamblado y pruebas de flujo | Export + panel de flujo |
-| 8 | Cierre | Empaquetado y publicación | Endurecimiento final y documentación | Pulido, onboarding y ayuda en línea |
+| 1 | Contratos y cimientos | Fixtures, almacén, filtros | Modelo, registro, decoders base | `state.rs` y maqueta |
+| 2 | Abrir un `.pcap` | Lector PCAP | Ethernet + IPv4 + UDP | Lista de paquetes |
+| 3 | TCP y detalle | Rendimiento y búsqueda | TCP, ARP, ICMP | Detalle y vista de bytes |
+| 4 | PCAPNG y límites | PCAPNG, exportación | IPv6 + extensiones | Estadísticas, búsqueda |
+| 5 | 🎄 Navidades | Filtros `&&` `||` `!` | DNS, DHCP | Filtros en la interfaz |
+| 6 | VLAN, ICMPv6 | Métricas por conversación | VLAN, ICMPv6 | Colores y filtros por MAC |
+| 7 | Filtros y export | Filtros guardados, CSV/JSON | Estadísticas por flujo | Panel de estadísticas |
+| 8 | Reensamblado TCP | Soporte de secuencias | Reordenamiento y retransmisiones | Vista de conexión |
+| 9 | Flujos y laboratorio | Generador de paquetes | Validar el generador | Panel del generador |
+| 10 | Captura en vivo | Spike y backend de Linux | Decodificación en segundo plano | Controles de captura |
+| 11 | Windows y macOS | Backends y empaquetado | Protocolos de estiramiento | Estadísticas en vivo |
+| 12 | Cierre | Binarios portátiles | Revisión de seguridad | Pulido y publicación |
 
-Detalle, dependencias, riesgos y rituales: [`docs/ROADMAP.md`](docs/ROADMAP.md).
+Detalle día a día, dependencias, riesgos y rituales:
+[`docs/ROADMAP.md`](docs/ROADMAP.md). El primer sprint, expandido:
+[`docs/SPRINT-1.md`](docs/SPRINT-1.md).
 
 ---
 
@@ -296,7 +324,16 @@ descargarlas, y es lo que hace integración continua en cada commit:
 En cuanto la ventana exista (Sprint 1), `cargo run -p netscope-desktop` abrirá la
 aplicación de verdad.
 
-La **captura en vivo** (Sprint 6) sí añadirá requisitos del sistema: `libpcap`
+### Cómo se distribuye
+
+Binarios **portátiles** en la sección de *releases*, uno por sistema, sin
+instalar nada: se descarga, se descomprime y se ejecuta. Lo genera integración
+continua al publicar una etiqueta (`v0.1.0`), no a mano.
+
+Solo la captura en vivo necesita algo del sistema (`libpcap` en Linux, Npcap en
+Windows). Para **abrir ficheros no hace falta instalar nada**.
+
+La **captura en vivo** (Sprints 10-11) sí añadirá requisitos del sistema: `libpcap`
 en Linux o Npcap en Windows. Hasta entonces no hace falta nada.
 
 ---
@@ -334,6 +371,7 @@ sigue el proceso de reporte confidencial descrito en
 
 | Documento | Para qué sirve |
 |-----------|----------------|
+| [`docs/ALCANCE.md`](docs/ALCANCE.md) | **Qué es y qué no es NetScope**: la definición de «comparable a Wireshark» y la lista de lo que no entra |
 | [`docs/SPRINT-1.md`](docs/SPRINT-1.md) | El primer sprint, día a día, con las tareas de cada persona |
 | [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) | Decisiones de diseño, flujo de datos, concurrencia, pruebas |
 | [`docs/CONTRATOS.md`](docs/CONTRATOS.md) | Qué puede usar cada equipo del otro, y qué **no** puede |
@@ -343,6 +381,7 @@ sigue el proceso de reporte confidencial descrito en
 | [`docs/adr/`](docs/adr/) | Registros de decisiones arquitectónicas (ADR) |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Cómo se trabaja en el repositorio: ramas, commits, PR, revisiones |
 | [`SECURITY.md`](SECURITY.md) | Uso autorizado, datos sensibles y reporte de fallos de seguridad |
+| [`docs/REVISION.md`](docs/REVISION.md) | Revisión crítica de la propia planificación: huecos y riesgos reales |
 | [`LICENSE.md`](LICENSE.md) | Doble licencia MIT / Apache-2.0 y cuál elegir |
 
 ---

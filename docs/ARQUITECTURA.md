@@ -197,11 +197,16 @@ descarta), **no copiar** (rangos en vez de `Vec`), **lotes en vez de unidad**
 | Integración | Abrir un `.pcap` real y verificar el número de paquetes y campos | A + B |
 | Contrato | Cada equipo verifica que consume lo que el otro promete | los tres |
 | Golden | Trama → descripción esperada en JSON; si cambia, el cambio es explícito | B |
-| Fuzzing | Entrada arbitraria al parser: no debe haber pánico ni bucle infinito | B (A aporta los ficheros semilla) |
+| Corpus hostil | Tramas mutadas a mano guardadas como pruebas: no debe haber pánico ni bucle infinito | B (A aporta las tramas semilla) |
 | Manuales | La interfaz se usa de verdad antes de darla por terminada | C |
 
-Regla: **el fuzzing no espera a tener una GUI.** B puede hacer fuzzing de
-`protocol` en el Sprint 2 sin ninguna dependencia de A ni de C.
+Regla: **el corpus hostil no espera a tener una GUI.** B puede escribir las
+tramas mutadas en el Sprint 2 sin ninguna dependencia de A ni de C.
+
+> **Nota:** se decidió no usar `cargo-fuzz` ni `proptest` al principio. Un corpus
+> de tramas mutadas a mano cubre lo mismo a este tamaño de proyecto y no añade
+> dependencias. Es la primera herramienta que se recuperaría si sobra tiempo en
+> el Sprint 8.
 
 ---
 
@@ -214,7 +219,7 @@ Regla: **el fuzzing no espera a tener una GUI.** B puede hacer fuzzing de
   superiores raisonnables (`snaplen` máximo, longitud máxima de capa).
 - Iteraciones acotadas: máximo de capas por paquete (corta ciclos en el registro
   de decodificadores).
-- Los `.pcap` no confiables son el caso normal: las pruebas de fuzzing empiezan en el
+- Los `.pcap` no confiables son el caso normal: las pruebas de entrada hostil empiezan en el
   Sprint 2, no al final.
 
 ---

@@ -123,7 +123,7 @@ Antes de escribir código, responde a estas seis preguntas:
 - [ ] Una prueba por cada rama de la lógica de campos de longitud.
 - [ ] Una prueba con el checksum bien puesto y otra con el checksum roto.
 - [ ] Una prueba con un campo de longitud mayor que los datos disponibles.
-- [ ] Un test de *fuzzing* con bytes arbitrarios: no debe haber pánico.
+- [ ] Un test del corpus hostil (tramas mutadas a mano): no debe haber pánico.
 - [ ] Registrar el protocolo en el registro, en un solo sitio.
 - [ ] Actualizar el estado del protocolo en el README.
 

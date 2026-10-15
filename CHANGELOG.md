@@ -21,7 +21,18 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
   (`docs/ARQUITECTURA.md`).
 - Contratos entre equipos con reglas de dependencia y pruebas de contrato
   (`docs/CONTRATOS.md`).
-- Roadmap de 8 sprints para tres personas independientes (`docs/ROADMAP.md`).
+- Definición de alcance, con lo que entra, lo que no y qué significa «terminado»
+  (`docs/ALCANCE.md`).
+- Roadmap de 12 sprints para tres personas independientes (`docs/ROADMAP.md`).
+- Guía de anonimización de capturas de tráfico propio (`fixtures/README.md`).
+- Revisión crítica de la planificación: huecos, contradicciones y riesgos reales
+  (`docs/REVISION.md`).
+- Decisión cerrada de la lectura de PCAP y PCAPNG, con datos de las bibliotecas
+  candidatas (ADR-0006).
+- Licencia doble MIT / Apache-2.0 con los textos canónicos.
+- Convenciones de código: identificadores en inglés y documentación en español.
+- Calendario hasta abril de 2027, con las fiestas tenidas en cuenta.
+- Plantillas de issues y PR, y código de conducta, para el repositorio.
 - Registros de decisión arquitectónica 0001 a 0006 (`docs/adr/`).
 - Notas de estudio de protocolos (`docs/PROTOCOLOS.md`).
 - Guía de contribución, política de seguridad y exclusiones de ficheros.
@@ -33,6 +44,16 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
   `netscope-proto` → `netscope-protocol`, `netscope-core` → `netscope-capture`,
   `netscope-ui` → `netscope-desktop`. El criterio y las alternativas están en el
   ADR-0001. El binario sigue llamándose `netscope`.
+
+### Cambiado
+
+- **El alcance se redefine**: el objetivo pasa a ser «las mismas categorías de
+  función que Wireshark sobre menos protocolos» (`docs/ALCANCE.md`), con una
+  lista explícita de lo que no entra.
+- **El roadmap crece de 8 a 12 sprints** (19 oct 2026 – 9 abr 2027), con
+  capacidad real de 15-20 h semanales por persona.
+- Se sustituye el *fuzzing* por un **corpus de tramas mutadas a mano** como
+  entrada hostil: mismos beneficios, sin dependencias.
 
 ### Nota
 

@@ -168,7 +168,7 @@ un sitio concreto.
   ninguna funcionalidad. En un repositorio nuevo, eso evita la mitad de los
   malentendidos.
 - **El parser hostil desde el día uno.** `#![forbid(unsafe_code)]`, lints
-  heredados del workspace y fuzzing en el Sprint 2. La mayoría de los
+  heredados del workspace y corpus de tramas mutadas en el Sprint 2. La mayoría de los
   analizadores con fallos de seguridad hacen exactamente lo contrario.
 
 ---
@@ -183,6 +183,23 @@ un sitio concreto.
 | 4 | **Dónde viven los textos de la interfaz** | C |
 | 5 | **Campo `interface` en el modelo**, antes de congelarlo | B |
 | 6 | **Si el Sprint 5 baja alcance** por las fiestas | las tres |
+| 7 | **Reparto del Sprint 8** (reensamblado TCP), que recae entero sobre B | las tres |
 
 Nada de esto para el trabajo del día a día. Todo esto para que la primera
 semana no haya sorpresas.
+
+---
+
+## 7. Actualización del 14 de octubre
+
+Tras conocer la capacidad real (**15–20 h semanales por persona**), la revisión
+cambia en tres puntos:
+
+- **El roadmap crece** de 8 a 12 sprints: había margen de sobra y el objetivo es
+  comparable a Wireshark, no un visor de cabeceras.
+- **El riesgo de «nadie estima» baja de bloqueante a importante**: hay horas de
+  sobra, pero sin estimación el fallo sigue detectándose tarde.
+- **El cuello de botella de B se mueve**: con más horas, el problema ya no es el
+  volumen total, sino el **Sprint 8 entero**, donde el reensamblado TCP recae
+  solo sobre B. Si ahí se atasca, arrastra los dos siguientes. Por eso está
+  aislado y por eso el punto 7 de la lista de arriba.

@@ -143,25 +143,30 @@ Un decodificador sin estas pruebas **no está terminado**:
 - [ ] Con el checksum bien y con el checksum roto.
 - [ ] Con longitud variable en el mínimo y en el máximo.
 - [ ] Con un fragmento, si el protocolo tiene fragmentación.
-- [ ] Un test de *fuzzing* con bytes arbitrarios: **no puede haber pánico**.
+- [ ] Un test del **corpus hostil** (tramas mutadas a mano): **no puede haber pánico**.
 
 El mensaje de error es parte del producto: en la prueba, comprueba que dice
 algo útil, no solo que tiene el tipo correcto.
 
 ---
 
-## Fuzzing (desde el Sprint 2, no al final)
+## Corpus hostil (desde el Sprint 2, no al final)
 
-No necesita interfaz ni ficheros ni red: es un bucle que llama a tu decodificador
-con bytes aleatorios y comprueba que no hay pánico y que termina.
+No necesita interfaz, ni ficheros, ni red: es un conjunto de tramas escritas a
+mano —mutadas de forma deliberada— que se pasan por el decodificador para
+comprobar que no hay pánico y que termina.
 
 ```text
 trama aleatoria → decode → ¿se ha colgado? ¿ha petado?
 ```
 
 Corre en segundos y encuentra más fallos que cualquier revisión manual. No
-obstante, **el fuzzing no sustituye a entender el protocolo**: encuentra que el
+obstante, **el corpus no sustituye a entender el protocolo**: encuentra que el
 parser se rompe con una trama concreta, no por qué la trama es inválida.
+
+> Si en algún momento sobra tiempo (o el proyecto crece), `cargo-fuzz` genera el
+> corpus solo y es lo primero que se añade. Ver la nota de
+> [`../ARQUITECTURA.md`](../ARQUITECTURA.md#8-estrategia-de-pruebas).
 
 ---
 
@@ -186,7 +191,7 @@ filtro lineal es rápido en un decodificador y lentísimo en cien mil paquetes.
       datos externos.
 - [ ] Ningún campo de longitud se usa para reservar memoria sin tope.
 - [ ] Cada protocolo tiene sus pruebas completas, truncadas y malformadas.
-- [ ] El fuzzing no encuentra pánicos.
+- [ ] El corpus hostil no encuentra pánicos.
 - [ ] Añadir un protocolo nuevo es un archivo y una línea.
 
 ---

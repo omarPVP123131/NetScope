@@ -1,0 +1,59 @@
+name: Propuesta o problema de diseño
+description: Falta algo, o algo está pensado de la manera equivocada
+title: ""
+labels: ["diseño"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Esto no va de código, va de decisiones. Si la propuesta toca un
+        **contrato entre equipos** ([`docs/CONTRATOS.md`](../blob/main/docs/CONTRATOS.md)),
+        dilo explícitamente: es el único caso en el que la discusión bloquea a
+        otras personas.
+
+  - type: dropdown
+    id: tipo
+    attributes:
+      label: Tipo
+      options:
+        - Falta una funcionalidad
+        - El diseño actual no funciona para un caso
+        - Atasco técnico: no sé cómo hacerlo
+        - Mejora de la interfaz
+        - Prueba que falta
+        - Otro
+    validations:
+      required: true
+
+  - type: textarea
+    id: problema
+    attributes:
+      label: El problema, no la solución
+      description: |
+        Describe la situación en la que algo falla o falta. Si ya traes
+        solución, déjala para el final; es más útil leer primero el problema.
+    validations:
+      required: true
+
+  - type: textarea
+    id: casos
+    attributes:
+      label: Casos concretos
+      description: "Unas líneas: entrada, qué debería pasar y qué pasa. «Con un .pcap de 4 GB» es mejor que «con ficheros grandes»."
+      placeholder: |
+        Con un .pcap de 4 GB, la lista se queda en blanco al terminar de cargar.
+    validations:
+      required: true
+
+  - type: textarea
+    id: impacto
+    attributes:
+      label: A quién afecta
+      description: ¿A una persona del equipo? ¿Al proyecto entero? ¿Solo a quien use el analizador?
+      options: "Marca una: Persona A (captura) · Persona B (protocolos) · Persona C (interfaz) · Todo el equipo"
+
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: Qué se te ocurre
+      description: Opciones que hayas mirado y por qué te parece peor la actual. Puedes dejarlo vacío.

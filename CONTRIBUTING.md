@@ -5,6 +5,32 @@ y sin que nadie tenga que pedir permiso para seguir.
 
 ---
 
+## 0. Convenciones de código
+
+**El código se escribe en inglés. La documentación, en español.**
+
+| Qué | En qué idioma | Ejemplo |
+|-----|---------------|---------|
+| Nombres de tipos, funciones, variables, módulos | Inglés | `Packet`, `read_batch`, `captured_len` |
+| Comentarios y documentación (`//`, `///`) | Español | `/// Longitud de la cabecera Ethernet II.` |
+| Nombres de archivo | Inglés | `pcap.rs`, `hexdump.rs`, `flow.rs` |
+| Mensajes de error que ve una persona | Español | `"No hay paquetes"` |
+| Nombres de commit, ramas y etiquetas de PR | Español | `fix(capture): no reserva memoria sin tope` |
+
+Por qué se mezclan: los identificadores en inglés son la convención de Rust y
+se leen como se lee cualquier documentación; los comentarios en español, porque
+es lo que vais a entender dentro de dos años los que escribáis esto.
+
+Regla práctica: **si un identificador aparece en un ejemplo de la documentación
+oficial de Rust, se escribe en inglés.** Si es vocabulario del dominio
+(`trama`, `captura`, `filtro`), también.
+
+Nada de acentos ni `ñ` en los identificadores: el código se compila igual, pero
+las herramientas, las búsquedas y la lectura de los diffs se vuelven incómodos. Los
+acentos van en los comentarios.
+
+---
+
 ## 1. Cada persona, su crate
 
 | Persona | Crate | Carpeta |

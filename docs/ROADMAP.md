@@ -266,3 +266,27 @@ del MVP, no se recorta a los otros.
 | Final del Sprint 5 | Alguien del equipo encuentra en menos de 2 minutos cualquier campo de un paquete concreto |
 | Final del Sprint 6 | Captura en vivo de 10 minutos sin que la interfaz deje de responder |
 | Final del Sprint 8 | `v0.1.0` publicada y al menos una persona externa lo ha instalado y usado |
+
+---
+
+## Calendario
+
+Las fechas están calculadas para empezar el **lunes 19 de octubre de 2026** y
+duran 8 sprints de dos semanas. Si la fecha de arranque cambia, se ajusta esta
+tabla y nada más.
+
+| Sprint | Fechas | Foco | Cae en |
+|--------|--------|------|---------|
+| 1 | 19 – 30 oct 2026 | Contratos y cimientos | — |
+| 2 | 2 – 13 nov 2026 | Leer ficheros y entender tramas | — |
+| 3 | 16 – 27 nov 2026 | Casos límite y detalle | — |
+| 4 | 30 nov – 11 dic 2026 | Mostrar y medir | — |
+| 5 | 14 – 25 dic 2026 | Pulido de protocolo | **Navidad** |
+| 6 | 4 – 15 ene 2027 | Tiempo real | **Año Nuevo** |
+| 7 | 18 – 29 ene 2027 | Laboratorio y flujos | — |
+| 8 | 1 – 12 feb 2027 | Cierre y publicación | — |
+
+⚠️ **El Sprint 5 cae en Navidad y el 6 en Año Nuevo.** Si el equipo es pequeño,
+asumid que la última semana de cada uno de esos dos sprints va a ir a media
+velocidad, o bajad el alcance de esos sprints de antemano. Es mejor un Sprint 5
+con cuatro entregables que uno con seis a medias.

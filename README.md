@@ -1,5 +1,11 @@
 # NetScope
 
+[![CI](https://github.com/omarPVP123131/NetScope/actions/workflows/ci.yml/badge.svg)](https://github.com/omarPVP123131/NetScope/actions/workflows/ci.yml)
+[![Licencia](https://img.shields.io/badge/licencia-MIT%20OR%20Apache--2.0-blue.svg)](LICENSE.md)
+[![Rust](https://img.shields.io/badge/rust-2024-orange.svg)](https://www.rust-lang.org/)
+[![Estado](https://img.shields.io/badge/estado-planificaci%C3%B3n-amber.svg)](docs/ROADMAP.md)
+[![Contribuyendo](https://img.shields.io/badge/contribuciones-bienvenidas-blue.svg)](CONTRIBUTING.md)
+
 **Analizador de paquetes de red escrito en Rust, con fines educativos.**
 
 NetScope existe para entender *de verdad* cómo se estructuran los paquetes: no
@@ -26,7 +32,8 @@ el fichero que le das está roto.
 - [Puesta en marcha](#puesta-en-marcha)
 - [Seguridad y uso responsable](#seguridad-y-uso-responsable)
 - [Documentación](#documentación)
-- [Estado y licencia](#estado-y-licencia)
+- [Estado](#estado)
+- [Licencia](#licencia)
 
 ---
 
@@ -141,6 +148,8 @@ por código compartido.
 **Regla de oro:** si el trabajo de una persona bloquea a otra, es un error de
 diseño, no una realidad del proyecto. La solución es un contrato o un doble de
 prueba (*mock/fixture*), nunca esperar.
+
+La guía completa de cada persona está en [`docs/personas/`](docs/personas/).
 
 Herramientas que hacen posible la independencia:
 
@@ -262,7 +271,7 @@ Requisitos:
 - Nada más. Leer ficheros no necesita instalar nada.
 
 ```bash
-git clone https://github.com/netscope-project/netscope
+git clone https://github.com/omarPVP123131/NetScope
 cd netscope
 
 cargo check --workspace --no-default-features    # rápido
@@ -334,16 +343,25 @@ sigue el proceso de reporte confidencial descrito en
 | [`docs/adr/`](docs/adr/) | Registros de decisiones arquitectónicas (ADR) |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Cómo se trabaja en el repositorio: ramas, commits, PR, revisiones |
 | [`SECURITY.md`](SECURITY.md) | Uso autorizado, datos sensibles y reporte de fallos de seguridad |
+| [`LICENSE.md`](LICENSE.md) | Doble licencia MIT / Apache-2.0 y cuál elegir |
 
 ---
 
-## Estado y licencia
+## Estado
 
-**Estado:** planificación. El roadmap está definido y el reparto de trabajo
-acordado; la implementación empieza en el Sprint 1.
+**Planificación.** El workspace compila y pasa las comprobaciones de formato,
+análisis estático y pruebas; el analizador todavía no hace nada. El roadmap
+está definido, el reparto de trabajo acordado y la implementación empieza en el
+Sprint 1.
 
-**Licencia:** se definirá antes de la primera publicación pública del
-proyecto. Hasta entonces el repositorio es privado y no se distribuye.
+Lo que ya existe: la arquitectura, los contratos entre equipos, el roadmap de
+8 sprints, las guías de cada persona y el esqueleto del proyecto.
+Lo que no: todo el producto. Véase [`docs/ROADMAP.md`](docs/ROADMAP.md).
+
+## Licencia
+
+**MIT o Apache-2.0**, a elección de quien la use. Los dos textos están en el
+repositorio y el detalle de cuál conviene en [`LICENSE.md`](LICENSE.md).
 
 ---
 

@@ -170,7 +170,7 @@ con una trama corrupta en el byte 900.000.000 tiene que abrirse y recorrerse
 
 ## 7. Rendimiento
 
-Presupuestos que se miden en el Sprint 6 y que sirven para decidir qué se
+Presupuestos que se miden en el Sprint 4 y que sirven para decidir qué se
 optimiza:
 
 | Operación | Objetivo | Cómo se mide |

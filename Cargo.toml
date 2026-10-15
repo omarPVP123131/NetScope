@@ -18,10 +18,13 @@ members = [
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
-authors = ["NetScope contributors <equipo@netscope.dev>"]
-repository = "https://github.com/netscope-project/netscope"
-# El proyecto todavía no se publica: la licencia se decide antes del primer
-# lanzamiento (ver README > Licencia).
+authors = ["NetScope contributors"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/omarPVP123131/NetScope"
+homepage = "https://github.com/omarPVP123131/NetScope#readme"
+# NetScope es una aplicación, no una librería: mientras no haya versión publicada
+# en crates.io, esto impide publicarla por error. Para publicar la primera
+# versión, quita esta línea y sube el número de versión.
 publish = false
 
 [workspace.dependencies]

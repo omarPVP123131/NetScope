@@ -1,7 +1,8 @@
 # Sprint 1 en detalle
 
-> 10 días laborables. Objetivo único: **que nadie esté bloqueado durante los 15
-> meses siguientes**. Nada de esto es funcionalidad del producto.
+> **19 – 30 de octubre de 2026** · 10 días laborables.
+> Objetivo único: **que nadie esté bloqueado durante los meses siguientes**.
+> Nada de esto es funcionalidad del producto.
 
 ---
 

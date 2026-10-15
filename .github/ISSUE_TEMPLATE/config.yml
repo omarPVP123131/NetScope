@@ -1,0 +1,10 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Dudas y Alignment
+    url: https://github.com/omarPVP123131/NetScope/discussions
+    about: Preguntas abiertas, decisiones de diseño y conversación que no son
+      todavía un error ni una propuesta cerrada.
+  - name: Uso autorizado y seguridad
+    url: https://github.com/omarPVP123131/NetScope/blob/main/SECURITY.md
+    about: Cómo usar NetScope sin meterte en un problema, y cómo reportar un
+      fallo de seguridad sin hacerlo público.

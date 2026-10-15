@@ -1,0 +1,89 @@
+name: Aviso de fallo
+description: Algo en NetScope no funciona como debería
+title: "[fallo] "
+labels: ["fallo", "necesita-reproducción"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportarlo. NetScope está en planificación, así que hay
+        partes que todavía no existen: si lo que falla es algo que aún no está
+        hecho, dilo y cerramos la incidencia sin más.
+
+        **Antes de nada, lee [SECURITY.md](../blob/main/SECURITY.md):** si el
+        fallo es del parser y adjunto un `.pcap`, no lo adjuntes. Puede
+        contener datos de otras personas.
+
+  - type: textarea
+    id: que-hace
+    attributes:
+      label: Qué hace NetScope cuando falla
+      description: Pasos para reproducirlo, empezando por el estado inicial.
+      placeholder: |
+        1. Abro el fichero `captura.pcap`
+        2. Escribo `tcp && port 443` en el filtro
+        3. Pulso Intro
+    validations:
+      required: true
+
+  - type: textarea
+    id: esperado
+    attributes:
+      label: Qué esperaba yo
+      description: No hace falta que sea perfecto; con una frase basta.
+    validations:
+      required: true
+
+  - type: textarea
+    id: real
+    attributes:
+      label: Qué ha pasado en realidad
+      description: Incluye el mensaje de error tal cual, si lo hay.
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      description: La de `netscope --version`, o "la de main" si la compilaste tú.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: Sistema operativo
+      options:
+        - Linux
+        - Windows
+        - macOS
+        - Otro
+    validations:
+      required: true
+
+  - type: input
+    id: rust
+    attributes:
+      label: Versión de Rust
+      description: La de `rustc --version`.
+      placeholder: "1.89.0"
+
+  - type: textarea
+    id: captura
+    attributes:
+      label: Datos de prueba (opcional)
+      description: |
+        **Tramas escritas a mano, sí. Ficheros `.pcap`, no en un issue
+        público.** Si necesitas un caso concreto, describe las tramas en texto
+        o di que te mando una fixture por privado.
+      render: text
+
+  - type: checkboxes
+    id: revision
+    attributes:
+      label: Antes de enviar
+      options:
+        - label: He leído que no debo adjuntar ficheros .pcap con datos reales.
+          required: true

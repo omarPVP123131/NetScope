@@ -57,9 +57,11 @@ el fichero que le das está roto.
   redes de laboratorio controladas y comprobar el propio analizador.
 - **No sustituye a Wireshark.** Es un ejercicio didáctico con un alcance
   deliberadamente acotado. Lo que no se implemente, se documenta como pendiente.
-- **No es multiplataforma desde el primer día.** La captura en vivo se prioriza en
-  Linux y Windows (ver [ADR-0005](docs/adr/0005-captura-en-vivo.md)); el resto del
-  proyecto sí debe ser multiplataforma desde el principio.
+- **La captura en vivo solo funciona en Linux y Windows.** En macOS el programa
+  abre ficheros pero no captura, y lo dice con un mensaje claro
+  ([ADR-0005](docs/adr/0005-captura-en-vivo.md) y
+  [ADR-0007](docs/adr/0007-distribucion-y-privilegios.md)). El resto del
+  proyecto sí compila y funciona en los tres sistemas desde el principio.
 - **No expone una API de red.** No envía ni recibe tráfico; solo lo muestra.
 
 ---
@@ -221,6 +223,7 @@ Detalle día a día, dependencias, riesgos y rituales:
 | **`pcap-parser`** | Lectura de ficheros PCAP (candidato a evaluar en el Sprint 2) |
 | **`eframe` / `egui`** | Interfaz gráfica propuesta |
 | **Buffers propios + `hexdump` propio** | Visualización de datos binarios, sin dependencias para lo básico |
+| **`tshark` (Wireshark)** | Contrastar cada protocolo decodificado con la herramienta de referencia |
 | **Git y GitHub** | Control de versiones, revisiones e incidencias |
 
 Decisiones ya tomadas: [`docs/adr/`](docs/adr/). Decisiones pendientes:
@@ -371,6 +374,11 @@ sigue el proceso de reporte confidencial descrito en
 
 | Documento | Para qué sirve |
 |-----------|----------------|
+| [`docs/MOCKUPS.md`](docs/MOCKUPS.md) | Bocetos de las pantallas: qué se ve en cada zona y qué exige al modelo |
+| [`docs/VALIDACION-WIRESHARK.md`](docs/VALIDACION-WIRESHARK.md) | Cómo se comprueba que cada protocolo se interpreta como Wireshark |
+| [`docs/SPRINT-1-BACKLOG.md`](docs/SPRINT-1-BACKLOG.md) | El Sprint 1 tarea a tarea, con puntos y dependencias |
+| [`docs/CONTRATOS-FIRMA.md`](docs/CONTRATOS-FIRMA.md) | Hoja imprimible para firmar el contrato el primer día |
+| [`docs/PLANTILLAS-PRUEBAS-CONTRATO.md`](docs/PLANTILLAS-PRUEBAS-CONTRATO.md) | Plantillas de las pruebas cruzadas entre equipos |
 | [`docs/ALCANCE.md`](docs/ALCANCE.md) | **Qué es y qué no es NetScope**: la definición de «comparable a Wireshark» y la lista de lo que no entra |
 | [`docs/SPRINT-1.md`](docs/SPRINT-1.md) | El primer sprint, día a día, con las tareas de cada persona |
 | [`docs/ARQUITECTURA.md`](docs/ARQUITECTURA.md) | Decisiones de diseño, flujo de datos, concurrencia, pruebas |

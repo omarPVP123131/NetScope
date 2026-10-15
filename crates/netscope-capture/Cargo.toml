@@ -22,7 +22,9 @@ default = []
 # resto devuelve un error claro en vez de fallar al arrancar.
 capture-linux = []
 capture-windows = []
-capture-macos = []
+
+# macOS NO captura en la v0.1 (ADR-0007): abrir ficheros sí, capturar no. Si
+# algún día vuelve, el feature se añade aquí con su backend en src/capture/.
 
 # Lectura de PCAPNG, además del formato PCAP clásico (ADR-0003).
 pcapng = []

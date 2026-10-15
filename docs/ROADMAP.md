@@ -55,7 +55,7 @@ Y una cuarta, añadida con la experiencia:
 | 8 | 1 – 12 feb 2027 | Reensamblado de flujos TCP | — |
 | 9 | 15 – 26 feb 2027 | Vista de flujo y generador de laboratorio | — |
 | 10 | 1 – 12 mar 2027 | Captura en vivo (Linux) | — |
-| 11 | 15 – 26 mar 2027 | Captura en vivo (Windows, macOS) y estadísticas | — |
+| 11 | 15 – 26 mar 2027 | Captura en vivo (Windows), instalador y estadísticas | — |
 | 12 | 29 mar – 9 abr 2027 | Cierre, binarios portátiles y publicación | — |
 
 ⚠️ **El Sprint 5 cae en Navidad.** Va con la mitad de alcance asumido desde el
@@ -84,11 +84,12 @@ datos de A.
 | Persona A | Persona B | Persona C |
 |---|---|---|
 | Lector PCAP propio: cabecera, registros, endianness, `snaplen` | Ethernet II completo con sus casos límite | Lista de paquetes: columnas, selección, desplazamiento |
-| Pruebas diferenciales contra `pcap-file` | IPv4: IHL, fragmentación, checksum | Barra de estado: paquetes, bytes, errores |
+| Pruebas diferenciales contra `pcap-file` y `tshark` | IPv4: IHL, fragmentación, checksum | Barra de estado: paquetes, bytes, errores |
 | Pipeline: fuente → registro → almacén | UDP con checksum y pseudo-cabecera | Abrir fichero de verdad desde disco |
 | Filtro por protocolo y por puerto en `pipeline` | Pruebas con el corpus de tramas | Scroll sincronizado con el detalle |
 
-**Hito:** abrir un `.pcap` propio y ver Ethernet, IPv4 y UDP con sus campos.
+**Hito:** abrir un `.pcap` propio y ver Ethernet, IPv4 y UDP con sus campos,
+contrastados campo a campo con `tshark`.
 
 ### Sprint 3 — El protocolo interesante y el detalle
 *Aquí NetScope empieza a enseñar algo.*
@@ -179,14 +180,17 @@ vista de flujo tenga sentido.
 **Hito:** 10 minutos de captura real en una red autorizada, con la interfaz
 respondiendo todo el tiempo.
 
-### Sprint 11 — Captura en vivo (Windows y macOS) y estadísticas
+### Sprint 11 — Captura en vivo (Windows), instalador y estadísticas
 
 | Persona A | Persona C | Persona B |
 |---|---|---|
-| Backend de Windows (Npcap) | Estadísticas en vivo: paquetes/s, bytes/s | Protocolos nuevos si sobra tiempo |
-| Backend de macOS, o declaración de que no entra | Panel de distribución por protocolo | HTTP y TLS si el alcance lo permite |
-| Empaquetado para los tres sistemas | Ajustes de la interfaz en captura sostenida | Pruebas de regresión de todo el MVP |
+| Backend de Windows y detección de Npcap | Estadísticas en vivo: paquetes/s, bytes/s | Protocolos nuevos si sobra tiempo |
+| **Instalador de Linux** con *capabilities* | Panel de distribución por protocolo | HTTP y TLS si el alcance lo permite |
+| Aviso claro en macOS: se lee, no se captura | Ajustes de la interfaz en captura sostenida | Pruebas de regresión de todo el MVP |
 | Documentación de instalación por sistema | Mensajes de error por sistema | — |
+
+macOS queda fuera de la captura en vivo (ADR-0007): abrir ficheros sí, capturar
+no, con un mensaje que lo explique.
 
 ### Sprint 12 — Cierre y publicación
 *Que otra persona pueda usarlo sin vosotros.*
@@ -214,7 +218,7 @@ graph LR
     S5 --> S6[S6: VLAN, DHCP, ICMPv6]
     S6 --> S10[S10: captura en vivo Linux]
     S7 --> S8
-    S10 --> S11[S11: Windows/macOS]
+    S10 --> S11[S11: Windows + instalador]
     S8 --> S9[S9: flujos + generador]
     S9 --> S12[S12: cierre]
     S11 --> S12
@@ -261,8 +265,8 @@ integración falla y el problema es del contrato, no de la persona.
 | Riesgo | Probabilidad | Impacto | Mitigación |
 |---|---|---|---|
 | **El reensamblado TCP se atasca** | Media | Alto | Aislado en los sprints 8-9. Si se cae, cae el flujo y se mantiene todo lo demás |
-| **La captura en vivo no arranca por permisos** en Linux o macOS | Media | Medio | Se desarrolla contra ficheros y contra *loopback*; el mensaje de error explica cómo pedir los permisos |
-| **La biblioteca de captura no compila en los tres sistemas** | Media | Alto | Spike de dos días antes del Sprint 10. Alternativa: captura solo en Linux y mensaje claro en los otros |
+| **La captura en vivo no arranca por permisos** en Linux o Windows | Media | Medio | Se desarrolla contra ficheros y contra *loopback*; el mensaje de error explica cómo pedir los permisos |
+| **La biblioteca de captura no funciona bien en Windows** | Media | Alto | Npcap tiene sus rarezas (permisos, reinicio). El spike del Sprint 10 lo comprueba en Linux y en Windows antes de escribir una línea |
 | **Falta la biblioteca de sistema para compilar la GUI** | Baja | Medio | egui y eframe son Rust puro; la dependencia del sistema llega con la captura en vivo, que es opcional |
 | **B se convierte en el cuello de botella** | Media | Alto | Los picos no coinciden (§2.4). Si aun así ocurre, el generador pasa a C y el reensamblado al Sprint 13 |
 | **El proyecto crece** | Alta | Alto | [`ALCANCE.md`](ALCANCE.md) existe para eso. Lo nuevo entra en el Sprint 13 o no entra |
@@ -287,9 +291,9 @@ integración falla y el problema es del contrato, no de la persona.
 
 ## 10. Fuera de alcance
 
-Para que el proyecto termine: TLS, IPsec, IPX, MPLS, filtros BPF
-compilados, envío de paquetes, escaneo, captura en disco, plugins de terceros,
-interfaz web, scripting.
+Para que el proyecto termine: TLS, IPsec, IPX, MPLS, filtros BPF compilados,
+envío de paquetes, escaneo, captura en disco, plugins de terceros, interfaz web,
+scripting y **captura en macOS**.
 
 Si alguno entra en el alcance, se convierte en el Sprint 13 y sube la barra del
 MVP, no se recorta a los otros.

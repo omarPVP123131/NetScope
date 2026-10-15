@@ -55,6 +55,23 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
 - Se sustituye el *fuzzing* por un **corpus de tramas mutadas a mano** como
   entrada hostil: mismos beneficios, sin dependencias.
 
+### Añadido
+
+- ADR-0007: distribución y privilegios. Binario portátil siempre disponible e
+  instalador opcional que concede permisos de captura con *capabilities* en Linux
+  y detección de Npcap en Windows.
+- Validación cruzada con Wireshark: cada protocolo se contrasta con `tshark`, a
+  mano al terminarlo y automáticamente en CI.
+- Bocetos de la interfaz, con lo que cada pantalla exige al modelo de datos.
+- Backlog detallado del Sprint 1 con puntos, dependencias y camino crítico.
+- Hoja de firmas imprimible del contrato.
+- Plantillas de las pruebas de contrato entre equipos.
+
+### Cambiado
+
+- La captura en vivo se limita a **Linux y Windows**. macOS abre ficheros pero
+  no captura (ADR-0005 y ADR-0007).
+
 ### Nota
 
 El proyecto está **en planificación**: el workspace compila y las comprobaciones
